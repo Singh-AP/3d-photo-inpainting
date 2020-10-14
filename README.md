@@ -1,4 +1,4 @@
-# [CVPR 2020] 3D Photography using Context-aware Layered Depth Inpainting
+ 3D effects generation from a single 2D image
 
 [![Open 3DPhotoInpainting in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1706ToQrkIZshRSJSHvZ1RuCiM__YX3Bz)
 
