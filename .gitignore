@@ -1,5 +1,6 @@
 #ignore all kind of files
-*.*
+*.pth
+*.pt
 #except php files
 !*.py
 !*.yml
