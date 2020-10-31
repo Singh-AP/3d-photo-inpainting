@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template, session
 from werkzeug.utils import secure_filename
 from main import Main
 import json
@@ -38,7 +38,7 @@ def upload_file():
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 shutil.copyfile("image/"+filename, "static/"+filename)
-                file_json = json.dumps({"user_img":str(filename)})
+                session['user_image']=filename
                 return redirect(url_for('run',user_image=filename))
             else:
                 flash("Kindly upload only .png, .jpg or .jpeg image")
@@ -49,11 +49,14 @@ def upload_file():
 def run():
     print(request.method)
     if request.method == 'POST':
-        # if request.form.validate_on_submit():
+        config=yaml.load(open("argument.yml", 'r'))
+        session['config_dict'] = config
+        """
         if 'run' in request.form:
             print("Calling Main function")
             try:
                 config=yaml.load(open("argument.yml", 'r'))
+                session['config_dict'] = config
                 Main(config)
                 print("Main function ended successfully. Cleaning up now")
                 cleanup("static",".jpg")
@@ -61,7 +64,9 @@ def run():
             except Exception as e:
                 print("Main function raised error.")
                 print(e)
-        return render_template("index.html")
+        """
+        # TODO change to /results
+        return redirect(url_for("results"))
         # if request.form.get('Encrypt') == 'Encrypt':
         #     # pass
         #     print("Encrypted")
@@ -76,6 +81,30 @@ def run():
         print("user_img is ", user_img)
         # full_filename = os.path.join(app.config['UPLOAD_FOLDER'], user_img)
         return render_template("user_run.html", user_image=user_img)
+
+@app.route('/results',methods=['GET', 'POST'])
+def results():
+    """
+    GET: Display the effects videos, expects config={dict} and user_image={string} in GET message
+    """
+    print(request.method)
+    if request.method == 'GET':
+        user_img = session['user_image']
+        config = session['config_dict']
+        print("user_img is ", user_img)
+        vid_names = generate_list_of_vid_names(user_img)
+        return render_template("results.html",dolly_vid=vid_names[0],
+                zoom_vid=vid_names[1], circle_vid=vid_names[2], swing_vid=vid_names[3])
+
+
+def generate_list_of_vid_names(vid_name):
+    vid_name=os.path.splitext(vid_name)[0]
+    ans=[]
+    postfix = session['config_dict']["video_postfix"]
+    for pf in postfix:
+        ans.append(str(vid_name)+"_"+str(pf)+".mp4")
+    print("List of vid names: ",ans)
+    return ans
 
 def cleanup(directory, ftype):
     files_in_directory = os.listdir(directory)
