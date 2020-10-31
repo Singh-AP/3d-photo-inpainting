@@ -2,6 +2,7 @@ import numpy as np
 import argparse
 import glob
 import os
+import shutil
 from functools import partial
 import vispy
 import scipy.misc as misc
@@ -137,7 +138,16 @@ def Main(config_dict):
                             image.copy(), copy.deepcopy(sample['int_mtx']), config, image,
                             videos_poses, video_basename, config.get('original_h'), config.get('original_w'), border=border, depth=depth, normal_canvas=normal_canvas, all_canvas=all_canvas,
                             mean_loc_depth=mean_loc_depth)
+    
+    move_to_dir("video", "static")
     return 0
+
+def move_to_dir(source_dir,target_dir):
+    file_names = os.listdir(source_dir)
+    for file_name in file_names:
+        shutil.move(os.path.join(source_dir, file_name), target_dir)
+    return 0
+    
 
 if __name__ == "__main__":
     Main()
