@@ -1,16 +1,6 @@
  3D effects generation from a single 2D image
 
-[![Open 3DPhotoInpainting in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1706ToQrkIZshRSJSHvZ1RuCiM__YX3Bz)
-
-### [[Paper](https://arxiv.org/abs/2004.04727)] [[Google Colab](https://colab.research.google.com/drive/1706ToQrkIZshRSJSHvZ1RuCiM__YX3Bz)]
-
-<p align='center'>
-<img src='https://filebox.ece.vt.edu/~jbhuang/project/3DPhoto/3DPhoto_teaser.jpg' width='900'/>
-</p>
-
-We propose a method for converting a single RGB-D input image into a 3D photo, i.e., a multi-layer representation for novel view synthesis that contains hallucinated color and depth structures in regions occluded in the original view. We use a Layered Depth Image with explicit pixel connectivity as underlying representation, and present a learning-based inpainting model that iteratively synthesizes new local color-and-depth content into the occluded region in a spatial context-aware manner. The resulting 3D photos can be efficiently rendered with motion parallax using standard graphics engines. We validate the effectiveness of our method on a wide range of challenging everyday scenes and show fewer artifacts when compared with the state-of-the-arts.
-<br/>
-
+Reference Paper:
 **3D Photography using Context-aware Layered Depth Inpainting**
 <br/>
 [Meng-Li Shih](https://shihmengli.github.io/), 
@@ -24,7 +14,6 @@ In IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2020.
 ## Prerequisites
 
 - Linux (tested on Ubuntu 18.04.4 LTS)
-- Anaconda
 - Python 3.7 (tested on 3.7.4)
 - PyTorch 1.4.0 (tested on 1.4.0 for execution)
 
@@ -51,11 +40,12 @@ For more detailed instructions, please refer to [`DOCUMENTATION.md`](DOCUMENTATI
 1. Put ```.jpg``` files (e.g., test.jpg) into the ```image``` folder. 
     - E.g., `image/moon.jpg`
 2. Run the following command
-    ```bash
-    python main.py --config argument.yml
+    ```py
+    python app.py
     ```
-    - Note: The 3D photo generation process usually takes about 2-3 minutes depending on the available computing resources.
-3. The results are stored in the following directories:
+    - Note: The 3D photo generation process usually takes about 5-10 minutes depending on the available computing resources.
+3. Go to the http://127.0.0.1:5000/, upload a potrait image, hit run. 
+4. The results are stored in the following directories:
     - Corresponding depth map estimated by [MiDaS](https://github.com/intel-isl/MiDaS.git) 
         - E.g. ```depth/moon.npy```, ```depth/moon.png```
         - User could edit ```depth/moon.png``` manually. 
