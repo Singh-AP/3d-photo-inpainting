@@ -1,7 +1,12 @@
 #ignore all kind of files
 *.pth
 *.pt
+*.mp4
+*.npy
 minor/*
+video/
+depth/
+
 #except php files
 !*.py
 !*.yml
@@ -18,4 +23,3 @@ minor/*
 !video/moon.mp4
 !video/moon_circle.mp4
 !misc/moon_40.gif
-video/*
